@@ -1,0 +1,25 @@
+#! /usr/bin/bash
+
+function treatdir {
+	echo ${1%/}/
+}
+
+if [[ $# -ne 2 ]]; then
+	echo 'usage: htmls2vimdocs <source:html-folder> <target:vimdoc-folder>'
+	exit 1
+fi
+source_folder=`treatdir $1`
+target_folder=`treatdir $2`
+echo $source_folder $target_folder
+for html_path in `find $source_folder -name '*.html'`; do
+	html_path_dir=$(treatdir `dirname $html_path`)
+	html_path_base=`basename $html_path`
+	purename=${html_path_base%.html}
+	rel_dir=`treatdir ${html_path_dir#"$source_folder"}`
+	vimdoc_dir="$target_folder$rel_dir"
+	vimdoc_name="$purename.txt"
+	vimdoc_path="$vimdoc_dir$vimdoc_name"
+	echo "$html_path -=>> $vimdoc_path"
+	mkdir -p $vimdoc_dir
+	html2vimdoc "$html_path" > "$vimdoc_path"
+done

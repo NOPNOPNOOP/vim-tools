@@ -1,3 +1,13 @@
+add two bash script
+1. html2vimdoc
+2. htmls2vimdocs
+3. vimdocs-tags2ftags
+
+html2vimdoc is a bash script wraps html2vimdoc.py, it can auto toggle venv when need it.
+htmls2vimdocs is a wrap of html2vimdoc for multiple files in folder
+vimdocs-tags2ftags is a tool to set vimdocs tags(* balabala *) to tags with filename qualified(* * balabala@<filename> *)
+
+#### down here is the info wrote by origin author
 # Python scripts to publish Vim plug-ins
 
 I'm a programmer which naturally means I hate performing repetitive tasks...
@@ -43,7 +53,7 @@ install them is in a [Python virtual environment] [virtualenv]:
     virtualenv html2vimdoc
 
     # Install the dependencies.
-    html2vimdoc/bin/pip install beautifulsoup coloredlogs markdown
+    html2vimdoc/bin/pip install beautifulsoup coloredlogs==2.0 markdown
 
     # Run the program.
     html2vimdoc/bin/python ./html2vimdoc.py --help

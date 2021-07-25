@@ -1,0 +1,27 @@
+#! /usr/bin/bash
+if [[ $# -ne 2 ]]; then
+	echo 'usage: vimdocs-tags2ftags <folder-to-change-tags> <prefix-for-tags>'
+fi
+function treatdir {
+	echo ${1%/}/
+}
+function escapepath {
+	echo ${1//\//\\\/}
+}
+function escape {
+	echo ${1//\//\\\/}
+}
+target_dir=`treatdir $1`
+prefix=$2
+for filepath in `find "$target_dir" -name '*.txt' -o -name '*.??x'`; do
+	rel_path=${filepath#"$target_dir"}
+	qualified_purename=${rel_path%.*}
+	echo "processing: $filepath"
+	# 只匹配:
+	# *balabala* *balabala* ... | balabala *balabala* balabala
+	guard1='^\(\s*\*[^* ]\+\*\)\+'
+	guard2='\s\*[^* ]\+\*\s'
+	guard='/'$guard1'\|'$guard2'/'
+	resub=$guard's/\*\([^* ]\+\)\*/*'"$prefix"'\1@'"`escapepath \"$qualified_purename\"`"'*/g'
+	sed -i "$resub" $filepath
+done

@@ -1,0 +1,5 @@
+BeautifulSoup==3.2.2
+coloredlogs==2.0
+humanfriendly==9.2
+Markdown==3.1.1
+monotonic==1.6
